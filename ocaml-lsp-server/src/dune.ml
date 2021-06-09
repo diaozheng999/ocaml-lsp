@@ -3,10 +3,10 @@ open! Import
 let dev_null () =
   (* TODO stdune should provide an api to simplify this *)
   Unix.openfile
-    (if Sys.win32 then
-      "nul"
-    else
-      "/dev/null")
+    (match Sys.os_type with
+      | "Win32"
+      | "Cygwin" -> "nul"
+      | _ -> "/dev/null")
     [ Unix.O_RDWR ] 0o666
 
 module Chan : sig
